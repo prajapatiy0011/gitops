@@ -124,7 +124,7 @@ spec:
             - -c
             - |
               for i in $(seq 1 20); do
-                IP=$(oc get installplan -n "openshift-operators" -o json | jq -r '.items[] | select(.spec.clusterServiceVersionNames[] | contains("opendatahub-operator.v2.11.1")) | .metadata.name')
+                IP=$(oc get installplan -n openshift-operators -o json   | jq -r '.items[] | select(.spec.clusterServiceVersionNames[] == "opendatahub-operator.v2.11.1") | .metadata.name')
                 if [ "$IP" ]; then
                   oc patch installplan $IP -n "openshift-operators" --type merge --patch '{"spec":{"approved":true}}'
                   break
